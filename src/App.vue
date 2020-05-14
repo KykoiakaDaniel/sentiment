@@ -1,32 +1,51 @@
 <template>
-  <div id="app">
-    <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
-    </div>
-    <router-view/>
-  </div>
+  <v-app>
+    <v-app-bar
+      app
+      color="#3F51B5"
+      dark
+    >
+      <router-link to="/" class="title font-weight-regular ml-2 text-none">Сентимент-анализ</router-link>
+
+      <v-spacer></v-spacer>
+
+      <router-link class="title font-weight-regular ml-2 text-none" to="/vk">VK</router-link>
+      <router-link class="title font-weight-regular ml-2 text-none" to="/ok">Одноклассники</router-link>
+    </v-app-bar>
+
+    <v-container fluid>
+      <v-content>
+        <router-view></router-view>
+      </v-content>
+    </v-container>
+  </v-app>
 </template>
 
+<script>
+
+export default {
+  name: 'App',
+
+  components: {
+  },
+
+  data: () => ({
+    //
+  })
+}
+</script>
+
 <style lang="scss">
+
+body,
 #app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
+  font-family: 'SF Pro Display';
+  font-size: 20px;
+  line-height: 20px;
+}
+.text-none {
+  text-decoration: none;
+  color: #FFFFFF !important;
 }
 
-#nav {
-  padding: 30px;
-
-  a {
-    font-weight: bold;
-    color: #2c3e50;
-
-    &.router-link-exact-active {
-      color: #42b983;
-    }
-  }
-}
 </style>

@@ -6,12 +6,292 @@
     <meta name="viewport" content="width=device-width,initial-scale=1.0">
     <link rel="icon" href="<%= BASE_URL %>favicon.ico">
     <title><%= htmlWebpackPlugin.options.title %></title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@mdi/font@latest/css/materialdesignicons.min.css">
+    <script type="text/javascript" src="oksdk.js"></script>
+    <script type="text/javascript" src="//api.ok.ru/js/fapi5.js" defer="defer"></script>
   </head>
   <body>
     <noscript>
       <strong>We're sorry but <%= htmlWebpackPlugin.options.title %> doesn't work properly without JavaScript enabled. Please enable it to continue.</strong>
     </noscript>
     <div id="app"></div>
-    <!-- built files will be auto injected -->
+    <script type="text/javascript" src="https://vk.com/js/api/openapi.js?168"></script>
+    <script type="text/javascript">
+
+      VK.init({
+        apiId: 7447515,
+        status: true,
+        onlyWidgets: true
+      });
+
+      function VkLogin () {
+        return new Promise((resolve, reject) => {
+          VK.Auth.login(function(response) {
+            if (response.session) {
+                resolve(response.session);
+            } else {
+              reject();
+            }
+          }, 262164);
+        })
+        .then((info) => {
+          return info;
+        })
+        .catch((error) => console.log(error));
+      }
+      
+      function VkLogout () {
+        return new Promise((resolve, reject) => {
+          VK.Auth.logout(function(response) {
+            if (response.session === null) {
+                resolve(response.session);
+            } else {
+              reject();
+            }
+          });
+        })
+        .then((info) => {
+          return info;
+        })
+        .catch((error) => console.log(error));
+      }
+
+      function getVkWall (idOwner, idPost) {
+        return new Promise((resolve, reject) => {
+          VK.Api.call('wall.getComments', {
+            owner_id: idOwner,
+            post_id: idPost,
+            count: 100,
+            v:"5.73"
+          }, function(response) {
+            if(response.response) {
+              resolve(response.response.items);
+            } else {
+              reject();
+            }
+          });
+        });
+      }
+
+      function getVkVideo (idOwner, idVideo) {
+        return new Promise((resolve, reject) => {
+          VK.Api.call('video.getComments', {
+            owner_id: idOwner,
+            video_id: idVideo,
+            count: 100,
+            v:"5.73"
+          }, function(response) {
+            if(response.response) {
+              resolve(response.response.items);
+            } else {
+              reject();
+            }
+          });
+        });
+      }
+
+      function getVkPhoto (idOwner, idPhoto) {
+        return new Promise((resolve, reject) => {
+          VK.Api.call('photos.getComments', {
+            owner_id: idOwner,
+            photo_id: idPhoto,
+            count: 100,
+            v:"5.73"
+          }, function(response) {
+            if(response.response) {
+              resolve(response.response.items);
+            } else {
+              reject();
+            }
+          });
+        });
+      }
+
+      function getVkBoard (idGroup, idTopic) {
+        return new Promise((resolve, reject) => {
+          VK.Api.call('board.getComments', {
+            group_id: idGroup,
+            topic_id: idTopic,
+            count: 100,
+            v:"5.73"
+          }, function(response) {
+            if(response.response) {
+              resolve(response.response.items);
+            } else {
+              reject();
+            }
+          });
+        });
+      }
+    </script>
+    
+    <script type="text/javascript">
+      var config = {
+          app_id: 512000436410,
+          app_key: 'CLLJKLJGDIHBABABA'
+      };
+
+      function OkLogin() {
+        return new Promise((resolve, reject) => {
+          OKSDK.init(
+              config, 
+              function () {
+                resolve(true)
+              }, 
+              function (error) {
+                reject(false)
+              }
+          );
+        });
+      }
+
+
+      // function OkGetMe() {
+      //   OKSDK.REST.call(
+      //       "users.getCurrentUser", 
+      //       {"fields": "first_name,last_name,age"},
+      //       function (status, data, error) {
+      //           if (status == "ok") {
+      //               console.log("UID: " + data.uid);
+      //           }
+              
+      //           if (status == "error") {
+      //               console.log("Error: " + JSON.stringify(error));
+      //           }
+      //       }
+      //   );
+      // }
+
+      function OkGetComments(id, type) {
+        return new Promise((resolve, reject) => {
+          OKSDK.REST.call(
+              "discussions.getComments", 
+              {
+                "fields": "comment.TEXT",
+                "discussionId": id,
+                "discussionType": type,
+                "count": 100,
+              },
+              function (status, data, error) {
+                  if (status == "ok") {
+                      if (data.comments) {
+                        resolve(data.comments);
+                      } else {
+                        resolve([]);
+                      }                     
+                  }
+                
+                  if (status == "error") {
+                      console.log("Error: " + JSON.stringify(error));
+                      reject();
+                  }
+              }
+          );
+        });
+      }
+    </script>
+
+
+    <!-- <script>
+
+      function facebookLogin() {
+        FB.login(function(response) {
+            if (response.authResponse) {
+              console.log('Welcome!  Fetching your information.... ');
+              FB.api('/me', function(response) {
+                console.log('Good to see you, ' + response.name + '.');
+              });
+              console.log(response)
+            } else {
+              console.log('User cancelled login or did not fully authorize.');
+            }
+        });
+      }
+
+      function facebookLogout() {
+        FB.logout(function(response) {
+        });
+      }
+
+      function facebookGetComments() {
+        // FB.logout(function(response) {
+        // });
+        // FB.api(
+        //     "/3039274129467289",
+        //     function (response) {
+        //       if (response && !response.error) {
+        //         console.log('ura')
+        //       }
+        //     }
+        // );
+        // FB.api(
+        //   '/me/feed',
+        //   'GET',
+        //   {},
+        //   function(response) {
+        //       // Insert your code here
+        //   }
+        // );
+        // FB.api(
+        //   '/100050955704324',
+        //   'GET',
+        //   {"fields":"birthday,email,hometown"},
+        //   function(response) {
+        //       // Insert your code here
+        //   }
+        // );
+        FB.api(
+          '/2629895627282550/photos',
+          'GET',
+          {},
+          function(response) {
+              // Insert your code here
+          }
+        );
+      }
+
+      function checkLoginState() {
+        FB.getLoginStatus(function(response) {
+          if (response.status === 'connected') {
+            console.log('insta vixod')
+            facebookLogout()
+          } else {
+            console.log('insta vxod')
+            facebookLogin()
+          }
+        });
+      }
+
+      window.fbAsyncInit = function() {
+        FB.init({
+          appId      : '2542232256030819',
+          cookie     : true,
+          xfbml      : true,
+          version    : 'v7.0'
+        });
+          
+        FB.AppEvents.logPageView();   
+        
+        // FB.getLoginStatus(function(response) {
+        //   statusChangeCallback(response);
+        // });
+      };
+
+      (function(d, s, id){
+        var js, fjs = d.getElementsByTagName(s)[0];
+        if (d.getElementById(id)) {return;}
+        js = d.createElement(s); js.id = id;
+        js.src = "https://connect.facebook.net/en_US/sdk.js";
+        fjs.parentNode.insertBefore(js, fjs);
+      }(document, 'script', 'facebook-jssdk'));
+
+      function testAPI() {
+        console.log('Welcome!  Fetching your information.... ');
+        FB.api('/me', function(response) {
+          console.log('Successful login for: ' + response.name);
+        });
+      }
+    </script> -->
   </body>
 </html>
