@@ -1,78 +1,61 @@
 <template>
   <v-container fluid>
-    <div class="home d-flex justify-center display-1">
-      Сайт для сентимент-анализа текстовых данных социальных сетей
-    </div>
-    <v-card class="px-6 py-3">
-      <v-row class="review">
-        <v-col lg="4" md="6">
-          <v-card
-            class="review-item"
-            outlined
-            tile
-          >
-            <v-card-title>Пример №1</v-card-title>
-            <span class="number">4</span>
-            <v-card-text>Добавлено в прошлом месяце: 999</v-card-text>
-          </v-card>
-        </v-col>
-        <v-col lg="4" md="6">
-          <v-card
-            class="review-item"
-            outlined
-            tile
-          >
-            <v-card-title>Пример №2</v-card-title>
-            <span class="number">4</span>
-            <v-card-text>Добавлено в прошлом месяце: 999</v-card-text>
-          </v-card>
-        </v-col>
-        <v-col lg="4" md="6">
-          <v-card
-            class="review-item"
-            outlined
-            tile
-          >
-            <v-card-title>Пример №3</v-card-title>
-            <span class="number">4</span>
-            <v-card-text>Добавлено в прошлом месяце: 999</v-card-text>
-          </v-card>
-        </v-col>
-        <v-col lg="4" md="6">
-          <v-card
-            class="review-item"
-            outlined
-            tile
-          >
-            <v-card-title>Пример №4</v-card-title>
-            <span class="number">4</span>
-            <v-card-text>Добавлено в прошлом месяце: 999</v-card-text>
-          </v-card>
-        </v-col>
-        <v-col lg="4" md="6">
-          <v-card
-            class="review-item"
-            outlined
-            tile
-          >
-            <v-card-title>Пример №5</v-card-title>
-            <span class="number">4</span>
-            <v-card-text>Добавлено в прошлом месяце: 999</v-card-text>
-          </v-card>
-        </v-col>
-        <v-col lg="4" md="6">
-          <v-card
-            class="review-item"
-            outlined
-            tile
-          >
-            <v-card-title>Пример №6</v-card-title>
-            <span class="number">4</span>
-            <v-card-text>Добавлено в прошлом месяце: 999</v-card-text>
-          </v-card>
-        </v-col>
-      </v-row>
-    </v-card>
+    <v-row class="review">
+      <v-col lg="4" md="6">
+        <v-card
+          class="review-item"
+          outlined
+          tile
+        >
+          <v-card-title>Шаг №1</v-card-title>
+          <span class="number">Выберите одну из соц. сетей</span>
+        </v-card>
+      </v-col>
+
+      <v-col lg="4" md="6">
+        <v-card
+          class="review-item"
+          outlined
+          tile
+        >
+          <v-card-title>Шаг №2</v-card-title>
+          <span class="number">Авторизируйтесь</span>
+        </v-card>
+      </v-col>
+
+      <v-col lg="4" md="6">
+        <v-card
+          class="review-item"
+          outlined
+          tile
+        >
+          <v-card-title>Шаг №3</v-card-title>
+          <span class="number">Вставьте ссылку на пост, фото, видео или обсуждение</span>
+        </v-card>
+      </v-col>
+
+      <v-col lg="4" md="6">
+        <v-card
+          class="review-item"
+          outlined
+          tile
+        >
+          <v-card-title>Шаг №4</v-card-title>
+          <span class="number">Нажмите на кнопку "проанализировать"</span>
+        </v-card>
+      </v-col>
+
+      <v-col lg="4" md="6">
+        <v-card
+          class="review-item"
+          outlined
+          tile
+        >
+          <v-card-title>Шаг №5</v-card-title>
+          <span class="number">Получите список комментариев с тональностями</span>
+        </v-card>
+      </v-col>
+    </v-row>
   </v-container>
 </template>
 
@@ -88,15 +71,19 @@ export default {
 <style lang="scss" scoped>
 .number {
   display: block;
-  margin: 0 15px;
+  margin: 0 15px 16px 15px;
   color: #2C3035;
-  font-size: 30px;
-  font-weight: 900;
+  font-size: 25px;
+  font-weight: 600;
   letter-spacing: 0.54px;
   line-height: 30px;
 }
 
 .review {
+  display: flex;
+  flex-flow: column;
+  justify-content: center;
+  align-items: center;
 
   [class^=col-] {
 

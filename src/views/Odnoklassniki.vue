@@ -92,6 +92,10 @@
         :items-per-page="15"
         disable-sort
       >
+        <template v-slot:item.sentiment="{ item }">
+          <v-icon v-if="item.sentiment === 'good'" :style="{ color: 'green' }">mdi-thumb-up</v-icon>
+          <v-icon v-if="item.sentiment === 'bads'" :style="{ color: 'red' }">mdi-thumb-down</v-icon>
+        </template>
       </v-data-table>
     </v-row>
   </v-container>
@@ -99,6 +103,7 @@
 
 <script>
 import { mapGetters, mapMutations } from 'vuex'
+import axios from 'axios'
 
 export default {
   name: 'Ok',
@@ -118,6 +123,10 @@ export default {
         {
           text: 'Комментарии',
           value: 'text'
+        },
+        {
+          text: '',
+          value: 'sentiment'
         }
       ]
     }
@@ -130,6 +139,7 @@ export default {
       return this.dataText.map(item => {
         if (item.text.includes('Сообщение содержит прикрепленные файлы (смотрите в полной версии сайта)')) {
           item.text = ''
+          item.sentiment = 'neutral'
           return item
         } else {
           return item
@@ -183,7 +193,14 @@ export default {
           if (type === 'GROUP_MOVIE' && info.length === 0) {
             this.getComments(idsUrl, 'MOVIE')
           } else {
-            this.dataText = info
+            axios({ url: 'http://localhost:3000/sentiment', data: { info }, method: 'POST' })
+              .then(resp => {
+                this.dataText = resp.data
+              })
+              .catch(err => {
+                this.dataText = []
+                console.log(err)
+              })
           }
         })
         .catch(() => {

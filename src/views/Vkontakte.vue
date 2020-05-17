@@ -92,6 +92,10 @@
         :items-per-page="15"
         disable-sort
       >
+        <template v-slot:item.sentiment="{ item }">
+          <v-icon v-if="item.sentiment === 'good'" :style="{ color: 'green' }">mdi-thumb-up</v-icon>
+          <v-icon v-if="item.sentiment === 'bads'" :style="{ color: 'red' }">mdi-thumb-down</v-icon>
+        </template>
       </v-data-table>
     </v-row>
   </v-container>
@@ -99,6 +103,7 @@
 
 <script>
 import { mapGetters, mapMutations } from 'vuex'
+import axios from 'axios'
 
 export default {
   name: 'Vkontakte',
@@ -118,6 +123,10 @@ export default {
         {
           text: 'Комментарии',
           value: 'text'
+        },
+        {
+          text: '',
+          value: 'sentiment'
         }
       ]
     }
@@ -200,7 +209,14 @@ export default {
     getWallComments (idOwner, idPost) {
       window.getVkWall(idOwner, idPost)
         .then((info) => {
-          this.dataText = info
+          axios({ url: 'http://localhost:3000/sentiment', data: { info }, method: 'POST' })
+            .then(resp => {
+              this.dataText = resp.data
+            })
+            .catch(err => {
+              this.dataText = []
+              console.log(err)
+            })
         })
         .catch(() => {
           this.errorLoad = true
@@ -212,7 +228,14 @@ export default {
     getVideoComments (idOwner, idVideo) {
       window.getVkVideo(idOwner, idVideo)
         .then((info) => {
-          this.dataText = info
+          axios({ url: 'http://localhost:3000/sentiment', data: { info }, method: 'POST' })
+            .then(resp => {
+              this.dataText = resp.data
+            })
+            .catch(err => {
+              this.dataText = []
+              console.log(err)
+            })
         })
         .catch(() => {
           this.errorLoad = true
@@ -224,7 +247,14 @@ export default {
     getPhotoComments (idOwner, idPhoto) {
       window.getVkPhoto(idOwner, idPhoto)
         .then((info) => {
-          this.dataText = info
+          axios({ url: 'http://localhost:3000/sentiment', data: { info }, method: 'POST' })
+            .then(resp => {
+              this.dataText = resp.data
+            })
+            .catch(err => {
+              this.dataText = []
+              console.log(err)
+            })
         })
         .catch(() => {
           this.errorLoad = true
@@ -236,7 +266,14 @@ export default {
     getBoardComments (idGroup, idTopic) {
       window.getVkBoard(idGroup, idTopic)
         .then((info) => {
-          this.dataText = info
+          axios({ url: 'http://localhost:3000/sentiment', data: { info }, method: 'POST' })
+            .then(resp => {
+              this.dataText = resp.data
+            })
+            .catch(err => {
+              this.dataText = []
+              console.log(err)
+            })
         })
         .catch(() => {
           this.errorLoad = true
