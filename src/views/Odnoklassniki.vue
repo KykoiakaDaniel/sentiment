@@ -167,6 +167,11 @@ export default {
       this.errorUrl = false
 
       if (this.$refs.formOk.validate()) {
+        if (!this.textSentiment.match(/\//)) {
+          this.errorUrl = true
+          this.dataText = []
+          return
+        }
         const idsUrl = this.textSentiment.split('/')
         let type
         if (this.textSentiment.includes('/pphotos/')) {
@@ -179,6 +184,7 @@ export default {
           type = 'GROUP_PHOTO'
         } else {
           this.errorUrl = true
+          this.dataText = []
           type = ''
         }
 
@@ -208,6 +214,17 @@ export default {
           console.log('Ошибка загрузки данных')
           this.dataText = []
         })
+    },
+
+    checkUrlOk (url) {
+      if (url === '') {
+        return false
+      }
+      if (url.includes('//ok.ru/') && (url.includes('/pphotos/') || url.includes('/video/') || url.includes('/topic/') || url.includes('/album/'))) {
+        return true
+      } else {
+        return false
+      }
     }
   }
 }

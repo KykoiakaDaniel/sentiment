@@ -189,6 +189,11 @@ export default {
       this.errorUrl = false
 
       if (this.$refs.formVK.validate()) {
+        if (!this.textSentiment.match(/\/topic-|z=photo|z=video|w=wall/)) {
+          this.errorUrl = true
+          this.dataText = []
+          return
+        }
         const partsUrl = this.textSentiment.split(/\/topic-|z=photo|z=video|w=wall/)
         const idsUrl = partsUrl[1].split(/_|%/)
 
@@ -202,6 +207,7 @@ export default {
           this.getWallComments(idsUrl[0], idsUrl[1])
         } else {
           this.errorUrl = true
+          this.dataText = []
         }
       }
     },
@@ -280,6 +286,17 @@ export default {
           console.log('Ошибка загрузки данных')
           this.dataText = []
         })
+    },
+
+    checkUrlVk (url) {
+      if (url === '') {
+        return false
+      }
+      if (url.includes('//vk.com/') && (url.includes('z=photo') || url.includes('z=video') || url.includes('/topic-') || url.includes('w=wall'))) {
+        return true
+      } else {
+        return false
+      }
     }
   },
   created () {
